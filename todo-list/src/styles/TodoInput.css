@@ -65,7 +65,7 @@
 }
 
 .todo-list li .destroy {
-    
+    display: none;
     position: absolute;
     top: 0;
     right: 10px;
@@ -104,56 +104,6 @@ button {
     -moz-osx-font-smoothing: grayscale;
 }
 
-.footer {
-    color: #777;
-    padding: 10px 15px;
-    height: 20px;
-    text-align: center;
-    border-top: 1px solid #e6e6e6;
-}
-
-.footer::before {
-    content: '';
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    height: 50px;
-    overflow: hidden;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 8px 0 -3px #f6f6f6, 0 9px 1px -3px rgba(0, 0, 0, 0.2), 0 16px 0 -6px #f6f6f6, 0 17px 2px -6px rgba(0, 0, 0, 0.2);
-}
-
-.todo-count {
-    float: left;
-    text-align: left;
-}
-
-.filters {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    position: absolute;
-    right: 0;
-    left: 0;
-}
-
-.filters li {
-    display: inline;
-}
-
-.filters li a {
-    color: inherit;
-    margin: 3px;
-    padding: 3px 7px;
-    text-decoration: none;
-    border: 1px solid transparent;
-    border-radius: 3px;
-}
-
-.filters li a.selected {
-    border-color: rgba(175, 47, 47, 0.2);
-}
-
 .toggle-all {
     text-align: center;
     border: none;
@@ -178,4 +128,13 @@ button {
     font-size: 22px;
     color: #e6e6e6;
     padding: 10px 27px 10px 27px;
+}
+
+.todo-list li .toggle:checked + label {
+    background-image: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%22-10%20-18%20100%20135%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%20fill%3D%22none%22%20stroke%3D%22%23bddad5%22%20stroke-width%3D%223%22/%3E%3Cpath%20fill%3D%22%235dc2af%22%20d%3D%22M72%2025L42%2071%2027%2056l-4%204%2020%2020%2034-52z%22/%3E%3C/svg%3E');
+}
+
+.todo-list li.completed label {
+    color: #d9d9d9;
+    text-decoration: line-through;
 }

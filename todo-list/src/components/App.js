@@ -1,5 +1,5 @@
 import React from 'react';
-import TodoList from './TodoList.js';
+import TodoInput from './TodoInput.js';
 import '../styles/App.css';
 
 function App() {
@@ -8,7 +8,7 @@ function App() {
       <section id="todo-app">
         <header className="App-header">
           <h1>to-dos_aibars</h1>
-          <TodoList />
+          <TodoInput />
         </header>
       </section>
       <footer className="info">
