@@ -1,17 +1,23 @@
 import React from 'react';
 import classNames from 'classnames';
 
+let ESCAPE_KEY = 27;
+let ENTER_KEY = 13;
+
 class TodoItem extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             hoverState: false,
+            editText: '',
         };
 
         this.toggleHover = this.toggleHover.bind(this);
         this.checkHandler = this.checkHandler.bind(this);
         this.destroyHandler = this.destroyHandler.bind(this);
+        this.handleEdit = this.handleEdit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     toggleHover() {
@@ -24,6 +30,24 @@ class TodoItem extends React.Component {
 
     destroyHandler() {
         this.props.removeItem(this.props.todo);
+    }
+
+    handleEdit() {
+        this.props.onEdit(this.props.todo);
+        this.setState({ editText: this.props.todo.text });
+    }
+
+    handleChange() {
+
+    }
+
+    handleKeyDown(e) {
+        if (e.which === ESCAPE_KEY) {
+            this.setState({ editText: this.props.todo.title });
+            this.props.onCancel(e);
+        } else if (e.which === ENTER_KEY) {
+            this.handleSubmit(e);
+        }
     }
 
     render() {
@@ -39,11 +63,19 @@ class TodoItem extends React.Component {
                         checked={this.props.todo.completed}
                         onChange={this.checkHandler}
                     />
-                    <label>{this.props.todo.text}</label>
+                    <label
+                        onDoubleClick={this.handleEdit}>{this.props.todo.text}</label>
                     <button
                         onClick={this.destroyHandler}
                         className="destroy">x</button>
                 </div>
+                <input
+                    ref="editField"
+                    className="edit"
+                    value={this.state.editText}
+                    onChange={this.handleChange}
+                    onKeyDown={this.handleKeyDown}
+                />
             </li>
         );
     }

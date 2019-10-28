@@ -6,23 +6,19 @@ class TodoList extends React.Component {
         super(props);
 
         this.toggleAll = this.toggleAll.bind(this);
-        this.state = { completed: false }
+        this.clearCompleted = this.clearCompleted.bind(this);
     }
-
+  
     toggleAll() {
         this.props.toggleAll();
     }
 
-    onCheck() {
-        let completed = this.props.todos.some((item) => {
-            return item.completed;
-        });
-
-        this.setState({ completed: completed });
+    clearCompleted() {
+        this.props.clearCompleted();
     }
 
     render() {
-        if (this.props.items.length === 0) return null;
+        if (this.props.todos.length === 0) return null;
         return (
             <div>
                 <section className="main">
@@ -32,10 +28,13 @@ class TodoList extends React.Component {
                         type="checkbox" />
                     <label htmlFor="toggle-all"></label>
                     <ul className="todo-list">
-                        {this.props.items}
+                        {this.props.todos}
                     </ul>
                 </section>
-                <Footer todos={this.props.items} completed={this.state.completed} />
+                <Footer
+                    itemsLeft={this.props.itemsLeft}
+                    completed={this.props.completed}
+                    clearCompleted={this.clearCompleted} />
             </div>
         );
     }
