@@ -13,6 +13,14 @@ form {
 }
 
 .button {
- width: 60%;
- font-size: 1.3em;
+  width: 60%;
+  font-size: 1.3em;
+}
+
+.message-complete {
+  color: green;
+}
+
+.message-incomplete {
+  color: red;
 }

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import Message from './Message'
-import { PropTypes } from 'prop-types';
-import { verify } from 'crypto';
 
 class Form extends Component {
     constructor(props) {
@@ -11,18 +9,19 @@ class Form extends Component {
             isNameValid: false,
             isPhoneValid: false,
             isUrlValid: false,
-            message: 'Form is Incomplete!'
+            formComplete: false
         };
     }
 
     validateInput() {
         if (this.state.isEmailValid &&
-            this.state.isNameValid && this.state.isPhoneValid
-            && this.state.isUrlValid) {
-            this.setState({ message: 'Form is Complete!' });
+            this.state.isNameValid &&
+            this.state.isPhoneValid &&
+            this.state.isUrlValid) {
+            this.setState({ formComplete: true });
         }
         else {
-            this.setState({ message: 'Form is Incomplete!' });
+            this.setState({ formComplete: false });
         }
     }
 
@@ -30,6 +29,8 @@ class Form extends Component {
         this.setState({
             isPhoneValid: /^[0-1]\d{1,9}$/.test(e.target.value)
         });
+
+        this.validateInput();
     };
 
     handleNameChange(e) {
@@ -38,14 +39,18 @@ class Form extends Component {
                 && e.target.value.length <= 30
                 && /^[a-zA-Z]+$/.test(e.target.value)
         });
+
+        this.validateInput();
     };
 
     handleUrlChange(e) {
         this.setState({ isUrlValid: validateUrl(e.target.value) });
+        this.validateInput();
     };
 
     handleEmailChange(e) {
         this.setState({ isEmailValid: validateEmail(e.target.value) });
+        this.validateInput();
     };
 
     render() {
@@ -65,18 +70,14 @@ class Form extends Component {
                     <h3>Blog URL:
                     <input type="text" value={this.state.url} onChange={this.handleUrlChange.bind(this)}></input>
                     </h3>
-                    <div className="small-6 small-centered text-center columns">
-                        <a href="#" className="button success expand round text-center"
-                            onClick={() => this.validateInput()}>Verify</a>
-                    </div>
                 </form>
-                <Message value={this.state.message} />
+                <Message formComplete={this.state.formComplete} />
             </div>);
     }
 }
 
 function validateEmail(email) {
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    var re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     return re.test(String(email).toLowerCase());
 }
 

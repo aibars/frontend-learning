@@ -30,7 +30,6 @@ class TodoInput extends React.Component {
                 text: this.state.value,
                 completed: false,
             };
-
             let list = this.state.todos.concat(todo);
             this.setState({
                 todos: list,
@@ -41,16 +40,44 @@ class TodoInput extends React.Component {
 
     onCheck(item) {
         const todos = this.state.todos;
+
         todos[item.id].completed = !todos[item.id].completed;
         this.setState({
             todos: todos,
         });
     }
 
+    toggleAll() {
+        const todos = this.state.todos;
+
+        this.state.todos.forEach((item, index) => {
+            item.completed = true;
+        });
+
+        this.setState({
+            todos: todos,
+        })
+    }
+
+    removeItem(item) {
+        const todos = this.state.todos;
+
+        var list = todos.filter((value, index, arr) => {
+            return value.id !== item.id;
+        });
+
+        this.setState({
+            todos: list,
+        });
+    }
+
     render() {
         const items = this.state.todos.map((item, i) => {
             return (
-                <TodoItem key={item.id} todo={item} onCheck={(item) => this.onCheck(item)}/>
+                <TodoItem key={item.id}
+                    todo={item}
+                    onCheck={(item) => this.onCheck(item)}
+                    removeItem={(item) => this.removeItem(item)} />
             );
         });
 
@@ -63,7 +90,9 @@ class TodoInput extends React.Component {
                     onChange={this.handleChange}
                     onKeyDown={this.handleKeyDown}
                 ></input>
-                <TodoList items={items} />
+                <TodoList
+                    items={items}
+                    toggleAll={() => this.toggleAll()} />
             </div>
         );
     }

@@ -10,15 +10,20 @@ class TodoItem extends React.Component {
         };
 
         this.toggleHover = this.toggleHover.bind(this);
-        this.onCheck = this.onCheck.bind(this);
+        this.checkHandler = this.checkHandler.bind(this);
+        this.destroyHandler = this.destroyHandler.bind(this);
     }
 
     toggleHover() {
         this.setState({ hoverState: !this.state.hoverState });
     }
 
-    onCheck(){
+    checkHandler() {
         this.props.onCheck(this.props.todo);
+    }
+
+    destroyHandler() {
+        this.props.removeItem(this.props.todo);
     }
 
     render() {
@@ -32,10 +37,12 @@ class TodoItem extends React.Component {
                         className="toggle"
                         type="checkbox"
                         checked={this.props.todo.completed}
-                        onChange={this.onCheck}
+                        onChange={this.checkHandler}
                     />
                     <label>{this.props.todo.text}</label>
-                    {this.state.hoverState && <button className="destroy"></button>}
+                    <button
+                        onClick={this.destroyHandler}
+                        className="destroy">x</button>
                 </div>
             </li>
         );
