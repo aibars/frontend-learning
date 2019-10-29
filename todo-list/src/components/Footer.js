@@ -22,15 +22,15 @@ class Footer extends React.Component {
                 </span>
                 <ul className="filters">
                     <li>
-                        <a href="/" className="selected">All</a>
+                        <button onClick={this.props.setAllItems} className="selected">All</button>
                     </li>
                     <span> </span>
                     <li>
-                        <a href="#/active">Active</a>
+                        <button onClick={this.props.setActiveItems}>Active</button>
                     </li>
                     <span> </span>
                     <li>
-                        <a href="#/completed">Completed</a>
+                        <button onClick={this.props.setCompletedItems}>Completed</button>
                     </li>
                 </ul>
                 {this.props.completed && <button

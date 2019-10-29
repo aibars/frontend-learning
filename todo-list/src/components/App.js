@@ -3,6 +3,7 @@ import TodoList from './TodoList.js';
 import '../styles/App.css';
 import '../styles/TodoInput.css';
 import TodoItem from './TodoItem.js';
+import uuidv4 from 'uuid';
 let ACTIVE = 'active';
 let ALL = 'all';
 let COMPLETED = 'completed';
@@ -14,9 +15,10 @@ class App extends React.Component {
     this.state = {
       value: '',
       todos: [],
-      completed: false,
+      areCompleted: false,
       editing: null,
-      showing: this.props.showing,
+      showing: ALL,
+      allToggled: false,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -34,7 +36,7 @@ class App extends React.Component {
   handleKeyDown(e) {
     if (e.key === 'Enter' && this.state.value !== '') {
       let todo = {
-        id: this.state.todos.length,
+        id: uuidv4(),
         text: this.state.value,
         completed: false,
       };
@@ -42,6 +44,7 @@ class App extends React.Component {
       this.setState({
         todos: list,
         value: '',
+        hidden: false,
       });
     }
   }
@@ -50,12 +53,13 @@ class App extends React.Component {
     const todos = this.state.todos;
 
     todos.forEach((item, index) => {
-      item.completed = true;
+      item.completed = !this.state.allToggled;
     });
 
     this.setState({
       todos: todos,
-    })
+      allToggled: !this.state.allToggled,
+    });
   }
 
   clearCompleted() {
@@ -78,15 +82,22 @@ class App extends React.Component {
   onCheck(item) {
     const todos = this.state.todos;
 
-    todos[item.id].completed = !todos[item.id].completed;
-    let completed = this.state.todos.some((item) => {
+    var idx = todos.findIndex((elem, index) => {
+      return elem.id === item.id;
+    });
+
+    todos[idx].completed = !todos[idx].completed;
+
+    let areCompleted = this.state.todos.some((item) => {
       return item.completed;
     });
 
     this.setState({
       todos: todos,
-      completed: completed,
+      areCompleted: areCompleted,
     });
+
+    this.checkAllToggled();
   }
 
   removeItem(item) {
@@ -96,6 +107,54 @@ class App extends React.Component {
 
     this.setState({
       todos: list,
+    });
+  }
+
+  setAllItems() {
+    let todos = this.state.todos;
+    todos.forEach((item, index) => {
+      item.hidden = false;
+    });
+
+    this.setState({
+      todos: todos,
+    });
+  }
+
+  setCompletedItems() {
+    let todos = this.state.todos;
+    todos.forEach((item, index) => {
+      item.hidden = true;
+      if (item.completed)
+        item.hidden = false;
+    });
+
+    this.setState({
+      todos: todos,
+    });
+  }
+
+  setActiveItems() {
+    let todos = this.state.todos;
+    todos.forEach((item, index) => {
+      item.hidden = true;
+      if (!item.completed)
+        item.hidden = false;
+    });
+
+    this.setState({
+      todos: todos,
+    });
+  }
+
+  checkAllToggled() {
+    let count = 0;
+    this.state.todos.forEach((item, idx) => {
+      if (item.completed) count++
+    });
+
+    this.setState({
+      allToggled: count === this.state.todos.length
     });
   }
 
@@ -121,6 +180,7 @@ class App extends React.Component {
           onCheck={(item) => this.onCheck(item)}
           removeItem={(item) => this.removeItem(item)}
           onEdit={(item) => this.edit(item)}
+          hidden={item.hidden}
         />
       );
     });
@@ -139,9 +199,13 @@ class App extends React.Component {
                 onKeyDown={this.handleKeyDown}
               ></input>
               <TodoList
+                allToggled={this.state.allToggled}
+                setAllItems={() => this.setAllItems()}
+                setCompletedItems={() => this.setCompletedItems()}
+                setActiveItems={() => this.setActiveItems()}
                 itemsLeft={itemsLeft}
                 todos={items}
-                completed={this.state.completed}
+                completed={this.state.areCompleted}
                 clearCompleted={() => this.clearCompleted()}
                 toggleAll={() => this.toggleAll()} />
             </div>

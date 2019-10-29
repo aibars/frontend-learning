@@ -34,9 +34,7 @@
     font-size: 24px;
 }
 
-.todo-list li .toggle {
-    height: 40px;
-    background: none;
+/* .todo-list li .toggle {
     text-align: center;
     width: 40px;
     height: auto;
@@ -45,9 +43,11 @@
     bottom: 0;
     margin: auto 0;
     border: none;
-    -webkit-appearance: none;
-    appearance: none;
     opacity: 0;
+} */
+
+.label-text {
+    padding-left: 10px;
 }
 
 .todo-list li .toggle+label {
@@ -58,25 +58,25 @@
 
 .todo-list li label {
     word-break: break-all;
-    padding: 15px 15px 15px 60px;
+    padding: 15px 15px 15px 5px;
     display: block;
     line-height: 1.2;
     transition: color 0.4s;
 }
 
-.todo-list li .destroy {
+.destroy {
     position: absolute;
-    top: 0;
     right: 10px;
-    bottom: 0;
     width: 40px;
     height: 40px;
-    margin: auto 0;
-    margin-bottom: auto;
-    font-size: 30px;
+    font-size: 25px;
     color: #cc9a9a;
-    margin-bottom: 11px;
     transition: color 0.2s ease-out;
+    padding-bottom: 10px;
+}
+
+.destroy.hidden {
+    display: none;
 }
 
 .clear-completed, html .clear-completed:active {
@@ -129,6 +129,10 @@ button {
     padding: 10px 27px 10px 27px;
 }
 
+.toggle-all:checked+label:before {
+    color: #737373;
+}
+
 .toggle-all+label .active {
     content: '❯';
     font-size: 22px;
@@ -159,5 +163,9 @@ button {
 }
 
 .todo-list li .edit {
+    display: none;
+}
+
+.todo-list li.hidden {
     display: none;
 }

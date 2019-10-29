@@ -17,7 +17,6 @@ class TodoItem extends React.Component {
         this.checkHandler = this.checkHandler.bind(this);
         this.destroyHandler = this.destroyHandler.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
-        this.handleChange = this.handleChange.bind(this);
     }
 
     toggleHover() {
@@ -37,10 +36,6 @@ class TodoItem extends React.Component {
         this.setState({ editText: this.props.todo.text });
     }
 
-    handleChange() {
-
-    }
-
     handleKeyDown(e) {
         if (e.which === ESCAPE_KEY) {
             this.setState({ editText: this.props.todo.title });
@@ -53,21 +48,23 @@ class TodoItem extends React.Component {
     render() {
         return (
             <li
-                className={classNames({ completed: this.props.todo.completed })}
+                className={classNames({ completed: this.props.todo.completed, hidden: this.props.todo.hidden })}
                 onMouseEnter={this.toggleHover}
                 onMouseLeave={this.toggleHover}>
                 <div className="view" >
-                    <input
-                        className="toggle"
-                        type="checkbox"
-                        checked={this.props.todo.completed}
-                        onChange={this.checkHandler}
-                    />
                     <label
-                        onDoubleClick={this.handleEdit}>{this.props.todo.text}</label>
-                    <button
-                        onClick={this.destroyHandler}
-                        className="destroy">x</button>
+                        onDoubleClick={this.handleEdit}>
+                        <input
+                            className="toggle"
+                            type="checkbox"
+                            checked={this.props.todo.completed}
+                            onChange={this.checkHandler}
+                        />
+                        {this.props.todo.text}
+                        <button
+                            onClick={this.destroyHandler}
+                            className={"destroy " + (!this.state.hoverState ? 'hidden' : '')}>x</button>
+                    </label>
                 </div>
                 <input
                     ref="editField"

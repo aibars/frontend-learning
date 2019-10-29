@@ -1,5 +1,6 @@
 import React from 'react';
 import Footer from './Footer';
+import classNames from 'classnames';
 
 class TodoList extends React.Component {
     constructor(props) {
@@ -8,7 +9,7 @@ class TodoList extends React.Component {
         this.toggleAll = this.toggleAll.bind(this);
         this.clearCompleted = this.clearCompleted.bind(this);
     }
-  
+
     toggleAll() {
         this.props.toggleAll();
     }
@@ -24,7 +25,7 @@ class TodoList extends React.Component {
                 <section className="main">
                     <input onClick={this.toggleAll}
                         id="toggle-all"
-                        className="toggle-all"
+                        className={classNames({ 'toggle-all': true, checked: this.props.allToggled })}
                         type="checkbox" />
                     <label htmlFor="toggle-all"></label>
                     <ul className="todo-list">
@@ -34,7 +35,10 @@ class TodoList extends React.Component {
                 <Footer
                     itemsLeft={this.props.itemsLeft}
                     completed={this.props.completed}
-                    clearCompleted={this.clearCompleted} />
+                    clearCompleted={this.clearCompleted}
+                    setAllItems={this.props.setAllItems}
+                    setActiveItems={this.props.setActiveItems}
+                    setCompletedItems={this.props.setCompletedItems} />
             </div>
         );
     }
