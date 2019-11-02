@@ -1,3 +1,3 @@
 ## React Examples
 
-Nothing fancy. Just some apps to aquire the basic concepts of React. 
+Excercises and tutorials that I've followed to learn and practice React/Redux. 
