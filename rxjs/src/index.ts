@@ -1,32 +1,12 @@
-import { fromEvent, combineLatest } from 'rxjs';
-import { pluck } from 'rxjs/operators';
+import { interval, fromEvent } from 'rxjs';
+import { take, switchMap, concatMap } from 'rxjs/operators';
 
-// const keyUp$ = fromEvent(document, 'keyup');
-// const click$ = fromEvent(document, 'click');
+const interval$ = interval(500).pipe(
+  take(3)
+);
 
-// combineLatest(keyUp$.pipe(
-//   pluck('type')
-// ), click$.pipe(
-//   pluck('type')
-// )).subscribe(console.log);
+const click$ = fromEvent(document, 'click');
 
-
-const input1 = document.createElement('input');
-const input2 = document.createElement('input');
-
-input1.placeholder = 'email@gmail.com';
-input2.placeholder = '***********';
-input2.type = 'password';
-
-document.querySelector('body').append(input1, input2);
-
-//Helper 
-const getInputStream = (elem: HTMLElement) =>
-  fromEvent<KeyboardEvent>(elem, 'keyup').pipe(
-    pluck<KeyboardEvent, string>('target', 'value')
-  );
-
-combineLatest(
-  getInputStream(input1),
-  getInputStream(input2)
+click$.pipe(
+  concatMap(() => interval$)
 ).subscribe(console.log);
