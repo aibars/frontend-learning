@@ -30,7 +30,7 @@
     "open": "^7.0.0",
     "prisma": "1.17.1",
     "prisma-binding": "2.1.6",
-    "set-value": "^3.0.1",
+    "set-value": "^4.0.1",
     "string": "^3.3.3",
     "stripe": "^6.12.1",
     "sync-exec": "^0.6.2"
